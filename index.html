@@ -6,7 +6,7 @@
 <title>네컷 포토부스</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Jua&family=Gaegu:wght@400;700&family=Silkscreen&family=Special+Elite&family=Noto+Sans+KR:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Gaegu:wght@400;700&family=Silkscreen&family=Special+Elite&family=Noto+Sans+KR:wght@400;700&display=swap">
 <style>
 /* Layout: cut-paper collage booth. Every screen = mint awning header over a blue wavy-striped booth wall, content on pink-edged paper notes */
 :root {
@@ -118,7 +118,7 @@ svg.defs { position: absolute; width: 0; height: 0; }
 .cut-card:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
 .mini { display: grid; gap: 4px; width: 46px; padding: 5px; background: #fff; border: 2.5px solid var(--ink); border-radius: 6px; }
 .mini i { display: block; height: 22px; background: var(--blue-l); border: 2px solid var(--ink); border-radius: 2px; }
-.cut-card strong { font: 400 34px/1 "Jua", var(--font-hand); }
+.cut-card strong { font: 700 31px/1 var(--font-hand); color: #3b3836; letter-spacing: .01em; padding-top: 2px; }
 .cut-card .sub { font: 700 17px/1.1 var(--font-hand); color: #4b4b4b; }
 
 /* ---------- 3. frames ---------- */
@@ -569,7 +569,6 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
   });
 
   // ---------- 2. cuts ----------
-  const CUT_INFO = { 1: '한 장', 2: '두 장', 3: '세 장', 4: '네 장' };
   function buildCuts() {
     const box = $('cutGrid'); box.innerHTML = '';
     [1, 2, 3, 4].forEach(n => {
@@ -580,8 +579,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
       const mini = document.createElement('span'); mini.className = 'mini';
       for (let k = 0; k < n; k++) mini.appendChild(document.createElement('i'));
       const big = document.createElement('strong'); big.textContent = n + (n === 1 ? ' cut' : ' cuts');
-      const sub = document.createElement('span'); sub.className = 'sub'; sub.textContent = CUT_INFO[n];
-      b.append(mini, big, sub);
+      b.append(mini, big);
       b.onclick = () => { setN(n); buildCuts(); };
       box.appendChild(b);
     });
