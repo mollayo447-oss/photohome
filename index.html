@@ -933,13 +933,6 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
       s.font = '16px "Silkscreen", monospace'; s.fillText(dateStamp(), W / 2 + 40, c.footTop + 108); s.restore();
     } },
 
-    { id: 'bluestars', name: '블루 스타', L: { px: 40, top: 44, gap: 24, foot: 140 }, draw: c => {
-      const s = c.s, rand = c.rand; s.fillStyle = '#b3d6f2'; s.fillRect(0, 0, W, c.H);
-      for (let k = 0; k < Math.round(c.H / 7); k++) { const R = 5 + rand() * 18; s.save(); s.translate(rand() * W, rand() * c.H); s.rotate(rand() * 1.2); star(s, 0, 0, R, '#151515'); s.restore(); }
-      c.cells.forEach((r, i) => c.cut(i, r));
-      footer(c, '#151515', 'rgba(21,21,21,.7)', null, '#b3d6f2');
-    } },
-
     { id: 'denim', name: '데님 스타', L: { px: 40, top: 44, gap: 24, foot: 140 }, draw: c => {
       const s = c.s, rand = c.rand; s.fillStyle = '#7d7f98'; s.fillRect(0, 0, W, c.H);
       s.lineWidth = 2;
