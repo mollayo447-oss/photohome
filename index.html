@@ -754,28 +754,6 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
     { id: 'gray', name: '기본 그레이', group: 'basic', L: { px: 30, top: 30, gap: 15, foot: 120 }, draw: plain('#c9c7c2', '#1b1b1b', 'rgba(27,27,27,.6)') },
     { id: 'black', name: '기본 블랙', group: 'basic', L: { px: 30, top: 30, gap: 15, foot: 120 }, draw: plain('#151515', '#f4f1ea', 'rgba(244,241,234,.65)') },
 
-    { id: 'smile', name: '스마일 폴라로이드', L: { px: 36, top: 40, gap: 22, foot: 180 }, draw: c => {
-      const s = c.s; s.fillStyle = '#fcfcf9'; s.fillRect(0, 0, W, c.H);
-      speckle(s, c.rand, 2200, 0, 0, W, c.H, ['rgba(0,0,0,.025)', 'rgba(0,0,0,.015)'], .5, 1.4);
-      c.cells.forEach((r, i) => { c.cut(i, r); s.strokeStyle = 'rgba(0,0,0,.08)'; s.lineWidth = 2; s.strokeRect(r.x, r.y, r.w, r.h); });
-      const t = c.footTop, letters = 'SMILE', cols = ['#3b5bdb', '#e8473c', '#f2b630', '#2fb36d', '#9b59d0'];
-      s.save(); s.font = '700 76px "Gaegu", cursive'; s.textBaseline = 'middle';
-      const widths = [...letters].map(ch => s.measureText(ch).width), total = widths.reduce((a, b) => a + b, 0) + 70;
-      let x = W / 2 - total / 2;
-      [...letters].forEach((ch, k) => { s.fillStyle = cols[k]; s.fillText(ch, x, t + 58 + (k % 2 ? -4 : 3)); x += widths[k]; });
-      const sx = x + 38, sy = t + 52;
-      s.strokeStyle = '#f39a24'; s.lineWidth = 4; s.lineCap = 'round';
-      for (let k = 0; k < 8; k++) { const a = k * Math.PI / 4; s.beginPath(); s.moveTo(sx + Math.cos(a) * 27, sy + Math.sin(a) * 27); s.lineTo(sx + Math.cos(a) * 37, sy + Math.sin(a) * 37); s.stroke(); }
-      s.fillStyle = '#f7a733'; s.beginPath(); s.arc(sx, sy, 22, 0, 7); s.fill();
-      s.fillStyle = '#5a3200'; s.beginPath(); s.arc(sx - 7, sy - 4, 2.6, 0, 7); s.arc(sx + 7, sy - 4, 2.6, 0, 7); s.fill();
-      s.strokeStyle = '#5a3200'; s.lineWidth = 2.5; s.beginPath(); s.arc(sx, sy + 2, 9, .2 * Math.PI, .8 * Math.PI); s.stroke();
-      s.restore();
-      [[58, t + 48, 15, '#9ad48a'], [44, t + 100, 12, '#7fb4f0'], [92, t + 120, 12, '#f39a3d'], [W - 56, t + 44, 15, '#f39a3d'], [W - 96, t + 108, 12, '#9ad48a'], [W - 46, t + 122, 12, '#7fb4f0']].forEach(f => flower(s, f[0], f[1], f[2], f[3]));
-      s.save(); s.textAlign = 'center'; s.textBaseline = 'middle';
-      if (c.caption) { s.fillStyle = '#555'; s.font = '700 32px "Gaegu", "Noto Sans KR", cursive'; s.fillText(c.caption, W / 2, t + 118, W - 260); }
-      s.fillStyle = 'rgba(0,0,0,.45)'; s.font = '18px "Special Elite", monospace'; s.fillText(dateStamp(), W / 2, t + 152); s.restore();
-    } },
-
     { id: 'ransom', name: '아이 러브 유', L: { px: 36, top: 40, gap: 22, foot: 170 }, draw: c => {
       const s = c.s; s.fillStyle = '#f6f6f2'; s.fillRect(0, 0, W, c.H);
       speckle(s, c.rand, 1800, 0, 0, W, c.H, ['rgba(0,0,0,.03)'], .5, 1.4);
@@ -892,7 +870,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
       footer(c, '#d22a22', 'rgba(60,40,40,.6)');
     } },
 
-    { id: 'digicam', name: '말랑 디카', L: { px: 28, top: 44, gap: 40, foot: 130, aspect: .74 }, draw: c => {
+    { id: 'digicam', name: '말랑 디카', only: [1], L: { px: 28, top: 44, gap: 40, foot: 130, aspect: .74 }, draw: c => {
       const s = c.s, rand = c.rand; s.fillStyle = '#fbf8fc'; s.fillRect(0, 0, W, c.H);
       const pastel = ['#f6b6cf', '#c9b6f2', '#f6e07a', '#f7b27a', '#bfe08a', '#a8d2f5'];
       for (let k = 0; k < 40; k++) heart(s, rand() * W, rand() * c.H, 10 + rand() * 6, pastel[k % 6]);
@@ -928,35 +906,6 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
         s.fillStyle = 'rgba(246,150,180,.6)'; s.beginPath(); s.arc(bx - 15, by + 6, 4, 0, 7); s.arc(bx + 15, by + 6, 4, 0, 7); s.fill();
       });
       footer(c, '#55545e', 'rgba(85,84,94,.65)');
-    } },
-
-    { id: 'idphoto', name: '증명사진', L: { px: 36, pr: 150, top: 58, gap: 62, foot: 70 }, draw: c => {
-      const s = c.s; s.fillStyle = '#fff'; s.fillRect(0, 0, W, c.H);
-      for (let x = 0; x <= W; x += 15) { s.strokeStyle = x % 75 ? '#d6e2f3' : '#a9bfe3'; s.lineWidth = x % 75 ? 1 : 1.5; s.beginPath(); s.moveTo(x, 0); s.lineTo(x, c.H); s.stroke(); }
-      for (let y = 0; y <= c.H; y += 15) { s.strokeStyle = y % 75 ? '#d6e2f3' : '#a9bfe3'; s.lineWidth = y % 75 ? 1 : 1.5; s.beginPath(); s.moveTo(0, y); s.lineTo(W, y); s.stroke(); }
-      s.fillStyle = '#5b9bea'; s.fillRect(0, 0, 4, c.H);
-      c.cells.forEach((r, i) => {
-        c.cut(i, r); s.strokeStyle = '#8ea4c9'; s.lineWidth = 1.5; s.strokeRect(r.x, r.y, r.w, r.h);
-        s.fillStyle = '#556'; s.font = '18px "Noto Sans KR", sans-serif'; s.textAlign = 'center';
-        s.fillText('▽', r.x + r.w / 2, r.y - 10); s.fillText('△', r.x + r.w / 2, r.y + r.h + 24);
-      });
-      const x0 = W - 134, cw = 112;
-      const vText = (txt, x, y, font, color) => { s.save(); s.translate(x, y); s.rotate(Math.PI / 2); s.font = font; s.fillStyle = color; s.textAlign = 'left'; s.textBaseline = 'middle'; s.fillText(txt, 0, 0); s.restore(); };
-      let boxTop = 40;
-      if (c.n > 1) {
-        s.save(); s.font = '700 44px "Noto Sans KR", sans-serif'; s.textAlign = 'center'; s.textBaseline = 'top'; s.lineWidth = 2.2; s.strokeStyle = '#6f87b3'; s.fillStyle = '#e8eef9';
-        [...'증명사진'].forEach((ch, k) => { s.fillText(ch, x0 + 26, 44 + k * 54); s.strokeText(ch, x0 + 26, 44 + k * 54); }); s.restore();
-        s.strokeStyle = '#333'; s.lineWidth = 1.5; s.strokeRect(x0 + 58, 44, 26, 210);
-        vText('• 우리만의 사진관 •', x0 + 71, 58, '700 13px "Noto Sans KR", sans-serif', '#333');
-        vText('잘라서 소중히 간직하세요', x0 + 100, 52, '12px "Noto Sans KR", sans-serif', '#d33');
-        boxTop = 290;
-      }
-      const boxH = c.H - 40 - boxTop;
-      s.fillStyle = '#fff'; s.fillRect(x0, boxTop, cw, boxH); s.strokeStyle = '#333'; s.lineWidth = 2; s.strokeRect(x0, boxTop, cw, boxH);
-      s.strokeStyle = '#333'; s.lineWidth = 1.2; s.beginPath(); s.moveTo(x0 + 40, boxTop + 12); s.lineTo(x0 + 40, boxTop + boxH - 12); s.stroke();
-      const d = new Date();
-      vText(d.getFullYear() + '년  ' + (d.getMonth() + 1) + '월  ' + d.getDate() + '일', x0 + 22, boxTop + 18, '16px "Noto Sans KR", sans-serif', '#333');
-      if (c.caption) { s.save(); s.translate(x0 + 78, boxTop + 20); s.rotate(Math.PI / 2); s.font = '700 40px "Gaegu", "Noto Sans KR", cursive'; s.fillStyle = '#1b1b1b'; s.textBaseline = 'middle'; s.fillText(c.caption, 0, 0, boxH - 40); s.restore(); }
     } },
 
     { id: 'phone', name: '피처폰', L: { px: 40, top: 96, gap: 30, foot: 150 }, draw: c => {
@@ -1045,7 +994,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
     groups.forEach(([g, label]) => {
       const h = document.createElement('p'); h.className = 'group-label'; h.textContent = label; list.appendChild(h);
       const grid = document.createElement('div'); grid.className = 'fgrid'; list.appendChild(grid);
-      FRAMES.filter(f => (f.group || 'deco') === g).forEach(f => {
+      FRAMES.filter(f => (f.group || 'deco') === g && fits(f)).forEach(f => {
         const b = document.createElement('button'); b.type = 'button'; b.className = 'fcard';
         b.setAttribute('aria-pressed', String(state.frame === f.id));
         const box = document.createElement('span'); box.className = 'thumbbox';
@@ -1072,7 +1021,9 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
     renderStrip({ frame: state.frame, n: state.n, caption: 'photohome', blank: true, target: $('framePreview') });
     $('frameName').textContent = FRAME_MAP[state.frame].name + ' · ' + state.n + '컷';
   }
-  ENTER_HOOKS.frame = () => { $('frameLead').textContent = state.n + '컷 프레임이에요. 필름, 밝기, 문구는 찍은 다음에 고를 수 있어요.'; buildFrames(); renderFramePreview(); };
+  const fits = f => !f.only || f.only.includes(state.n);
+  ENTER_HOOKS.frame = () => {
+    if (!fits(FRAME_MAP[state.frame])) state.frame = 'white'; $('frameLead').textContent = state.n + '컷 프레임이에요. 필름, 밝기, 문구는 찍은 다음에 고를 수 있어요.'; buildFrames(); renderFramePreview(); };
   $('frameNext').onclick = () => go('shoot');
 
   // ---------- sound ----------
