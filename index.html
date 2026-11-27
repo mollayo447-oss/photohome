@@ -977,11 +977,11 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
     } },
 
     { id: 'birthday', name: '해피 버스데이', L: { px: 48, top: 74, gap: 30, foot: 250 }, draw: c => {
-      const s = c.s, rand = c.rand; s.fillStyle = '#fff'; s.fillRect(0, 0, W, c.H);
-      s.fillStyle = 'rgba(243,160,190,.32)';
+      const s = c.s, rand = c.rand; s.fillStyle = '#fffaf2'; s.fillRect(0, 0, W, c.H);
+      s.fillStyle = 'rgba(246,168,140,.34)';
       for (let x = 0; x < W; x += 28) s.fillRect(x, 0, 14, c.H);
       for (let y = 0; y < c.H; y += 28) s.fillRect(0, y, W, 14);
-      s.strokeStyle = 'rgba(220,120,160,.25)'; s.lineWidth = 1;
+      s.strokeStyle = 'rgba(222,128,100,.25)'; s.lineWidth = 1;
       for (let x = 7; x < W; x += 14) { s.beginPath(); s.moveTo(x, 0); s.lineTo(x, c.H); s.stroke(); }
       s.strokeStyle = 'rgba(0,0,0,.18)'; s.lineWidth = 4; s.strokeRect(2, 2, W - 4, c.H - 4);
       c.cells.forEach((r, i) => { c.cut(i, r); s.strokeStyle = 'rgba(0,0,0,.14)'; s.lineWidth = 2; s.strokeRect(r.x, r.y, r.w, r.h); });
@@ -989,14 +989,14 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
       s.save(); s.translate(64, 64); s.rotate(-.18); starPath(s, 0, 0, 52, 28, 5); s.fillStyle = '#f9e7b6'; s.fill(); s.strokeStyle = '#e2c47c'; s.lineWidth = 5; s.lineJoin = 'round'; s.stroke();
       s.fillStyle = '#f4d3cf'; s.beginPath(); s.arc(0, 2, 17, 0, 7); s.fill(); s.fillStyle = '#c99a8f'; [[-5, -3], [5, -3], [-5, 7], [5, 7]].forEach(([x, y]) => { s.beginPath(); s.arc(x, y, 2.8, 0, 7); s.fill(); }); s.restore();
       const bx = W - 66, by = 64;
-      s.fillStyle = '#f39ab5'; s.beginPath(); s.arc(bx, by, 46, 0, 7); s.fill(); s.strokeStyle = '#e07fa0'; s.lineWidth = 4; s.stroke();
+      s.fillStyle = '#f4a08c'; s.beginPath(); s.arc(bx, by, 46, 0, 7); s.fill(); s.strokeStyle = '#e0806a'; s.lineWidth = 4; s.stroke();
       s.fillStyle = 'rgba(255,255,255,.35)'; for (let k = 0; k < 26; k++) { const a = rand() * 7, d = rand() * 38; s.beginPath(); s.arc(bx + Math.cos(a) * d, by + Math.sin(a) * d, 2.4, 0, 7); s.fill(); }
-      s.fillStyle = '#c96a8a'; [[-9, -9], [9, -9], [-9, 9], [9, 9]].forEach(([x, y]) => { s.beginPath(); s.arc(bx + x, by + y, 5, 0, 7); s.fill(); });
+      s.fillStyle = '#c4664f'; [[-9, -9], [9, -9], [-9, 9], [9, 9]].forEach(([x, y]) => { s.beginPath(); s.arc(bx + x, by + y, 5, 0, 7); s.fill(); });
       s.strokeStyle = '#fff6ee'; s.lineWidth = 5; s.lineCap = 'round'; s.beginPath(); s.moveTo(bx - 9, by - 9); s.lineTo(bx + 9, by + 9); s.moveTo(bx + 9, by - 9); s.lineTo(bx - 9, by + 9); s.stroke();
-      s.fillStyle = '#d7efb4'; s.beginPath(); s.arc(bx - 20, by + 66, 26, 0, 7); s.fill(); s.strokeStyle = '#b7d98a'; s.lineWidth = 3; s.stroke();
-      s.strokeStyle = '#e0457a'; s.lineWidth = 3; s.beginPath(); s.moveTo(bx - 27, by + 59); s.lineTo(bx - 13, by + 73); s.moveTo(bx - 13, by + 59); s.lineTo(bx - 27, by + 73); s.stroke();
+      s.fillStyle = '#f6e3a4'; s.beginPath(); s.arc(bx - 20, by + 66, 26, 0, 7); s.fill(); s.strokeStyle = '#dfc173'; s.lineWidth = 3; s.stroke();
+      s.strokeStyle = '#d9583a'; s.lineWidth = 3; s.beginPath(); s.moveTo(bx - 27, by + 59); s.lineTo(bx - 13, by + 73); s.moveTo(bx - 13, by + 59); s.lineTo(bx - 27, by + 73); s.stroke();
       // HAPPY BIRTHDAY!
-      const cols = ['#f6d36b', '#f59ab8', '#b9a2f2', '#8cc7f0', '#a6dd9a', '#f7a86d'];
+      const cols = ['#f6c656', '#f2907c', '#f7ae63', '#e98d9c', '#c9b05a', '#f0a07a'];
       const word = (txt, y, size) => {
         s.save(); s.font = size + 'px "Archivo Black"'; s.textBaseline = 'middle'; s.textAlign = 'center';
         const ws = [...txt].map(ch => s.measureText(ch).width + 2), tot = ws.reduce((a, b) => a + b, 0);
@@ -1005,7 +1005,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
           s.save(); s.translate(x + ws[k] / 2, y + (k % 2 ? -4 : 4)); s.rotate((rand() - .5) * .22);
           s.lineJoin = 'round'; s.lineWidth = 6; s.strokeStyle = '#fff'; s.strokeText(ch, 0, 0);
           s.fillStyle = cols[(k + txt.length) % cols.length]; s.fillText(ch, 0, 0);
-          s.lineWidth = 1.6; s.strokeStyle = 'rgba(90,60,80,.55)'; s.strokeText(ch, 0, 0);
+          s.lineWidth = 1.6; s.strokeStyle = 'rgba(110,64,40,.55)'; s.strokeText(ch, 0, 0);
           s.restore(); x += ws[k];
         });
         s.restore(); return tot;
@@ -1014,17 +1014,17 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
       const hw = word('HAPPY', t + 62, 58);
       word('BIRTHDAY!', t + 132, 58);
       const sx = W / 2 - hw / 2;
-      s.save(); s.translate(sx - 54, t + 60); s.rotate(-.2); star(s, 0, 0, 34, '#f37ab0', '#fff', 3); s.restore();
+      s.save(); s.translate(sx - 54, t + 60); s.rotate(-.2); star(s, 0, 0, 34, '#f0826a', '#fff', 3); s.restore();
       star(s, sx - 18, t + 92, 16, '#d9b44a'); speckle(s, rand, 20, sx - 30, t + 80, 24, 24, ['rgba(255,255,255,.7)'], .6, 1.4);
-      s.save(); s.translate(W / 2 + hw / 2 + 74, t + 64); s.rotate(.15); star(s, 0, 0, 32, '#f5a3c7'); speckle(s, rand, 40, -20, -20, 40, 40, ['rgba(255,255,255,.65)'], .6, 1.5); s.restore();
+      s.save(); s.translate(W / 2 + hw / 2 + 74, t + 64); s.rotate(.15); star(s, 0, 0, 32, '#f5ad8f'); speckle(s, rand, 40, -20, -20, 40, 40, ['rgba(255,255,255,.65)'], .6, 1.5); s.restore();
       const tx = W / 2 + hw / 2 + 26, ty = t + 64;
       s.fillStyle = '#8b5a3c'; [[-13, -16], [13, -16]].forEach(([x, y]) => { s.beginPath(); s.arc(tx + x, ty + y, 8, 0, 7); s.fill(); });
       s.beginPath(); s.ellipse(tx, ty + 22, 17, 15, 0, 0, 7); s.fill(); s.beginPath(); s.arc(tx, ty - 2, 18, 0, 7); s.fill();
       s.fillStyle = '#c9956a'; s.beginPath(); s.ellipse(tx, ty + 4, 8, 6, 0, 0, 7); s.fill();
       s.fillStyle = '#2a1a10'; s.beginPath(); s.arc(tx - 7, ty - 6, 2.4, 0, 7); s.arc(tx + 7, ty - 6, 2.4, 0, 7); s.arc(tx, ty + 2, 2.6, 0, 7); s.fill();
       s.save(); s.textAlign = 'center'; s.textBaseline = 'middle';
-      if (c.caption) { s.fillStyle = '#c04f7e'; s.font = '700 34px "Gaegu", "Noto Sans KR", cursive'; s.fillText(c.caption, W / 2, t + 190, W - 120); }
-      s.fillStyle = 'rgba(120,70,90,.65)'; s.font = '18px "Special Elite", monospace'; s.fillText(dateStamp(), W / 2, t + 224); s.restore();
+      if (c.caption) { s.fillStyle = '#bf5a3a'; s.font = '700 34px "Gaegu", "Noto Sans KR", cursive'; s.fillText(c.caption, W / 2, t + 190, W - 120); }
+      s.fillStyle = 'rgba(130,82,58,.65)'; s.font = '18px "Special Elite", monospace'; s.fillText(dateStamp(), W / 2, t + 224); s.restore();
     } },
 
     { id: 'polkabow', name: '도트 리본', L: { px: 40, top: 44, gap: 26, foot: 180 }, draw: c => {
@@ -1386,6 +1386,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
     } catch (e) {}
   }
   loadFonts();
+
 })();
 </script>
 </body>
