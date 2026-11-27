@@ -6,7 +6,7 @@
 <title>네컷 포토부스</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Gaegu:wght@400;700&family=Silkscreen&family=Special+Elite&family=Noto+Sans+KR:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Jua&family=Gaegu:wght@400;700&family=Silkscreen&family=Special+Elite&family=Noto+Sans+KR:wght@400;700&display=swap">
 <style>
 /* Layout: cut-paper collage booth. Every screen = mint awning header over a blue wavy-striped booth wall, content on pink-edged paper notes */
 :root {
@@ -26,6 +26,8 @@
   --font-body: "Noto Sans KR", system-ui, -apple-system, sans-serif;
   --waves: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='46' height='120'><rect width='46' height='120' fill='%23bcd0f3'/><path d='M12 -2 Q24 30 12 60 T12 122' stroke='%237ea9ee' stroke-width='15' fill='none'/></svg>");
   --speckle: radial-gradient(circle, rgba(255,255,255,.75) 1.1px, transparent 1.8px), radial-gradient(circle, rgba(255,255,255,.5) 1.4px, transparent 2.2px), radial-gradient(circle, rgba(20,90,50,.18) 1px, transparent 1.6px);
+  --felt-l: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 -.42'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
+  --felt-d: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .1  0 0 0 0 .1  0 0 0 0 .1  0 0 0 .8 -.4'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
   --gingham-bg: linear-gradient(90deg, rgba(150, 196, 90, .55) 50%, transparent 0) 0 0 / 22px 22px, linear-gradient(rgba(150, 196, 90, .55) 50%, transparent 0) 0 0 / 22px 22px, #fff;
 }
 * { box-sizing: border-box; }
@@ -33,7 +35,7 @@
 img { max-width: 100%; }
 html, body { min-height: 100%; }
 body {
-  margin: 0; background: var(--paper); color: var(--ink);
+  margin: 0; background: var(--felt-d), var(--felt-l), var(--paper); color: var(--ink);
   font-family: var(--font-body); font-size: 15px; line-height: 1.5;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
@@ -45,7 +47,7 @@ svg.defs { position: absolute; width: 0; height: 0; }
 /* ---------- shared pieces ---------- */
 .screen { max-width: 1000px; margin: 0 auto; position: relative; }
 .topbar {
-  background: var(--speckle), var(--mint); background-size: 37px 41px, 53px 47px, 29px 31px, auto;
+  background: var(--felt-d), var(--felt-l), var(--speckle), var(--mint); background-size: auto, auto, 37px 41px, 53px 47px, 29px 31px, auto;
   border-radius: 40px 40px 0 0; padding: 18px 16px 18px; text-align: center; position: relative;
 }
 .tiles { display: flex; flex-wrap: wrap; justify-content: center; gap: .18em; }
@@ -60,7 +62,7 @@ svg.defs { position: absolute; width: 0; height: 0; }
 .step { font: 700 16px/1 var(--font-hand); background: #fff; border: 2px solid var(--ink); border-radius: 999px; padding: 5px 11px 4px; }
 .step.on { background: var(--yellow); }
 .step.done { background: #fff; color: #8a8a8a; border-color: #8a8a8a; }
-.wall { background: var(--waves); padding: 22px clamp(12px, 3vw, 28px) 30px; border-radius: 0 0 8px 8px; position: relative; }
+.wall { background: var(--felt-d), var(--felt-l), var(--waves); padding: 22px clamp(12px, 3vw, 28px) 30px; border-radius: 0 0 8px 8px; position: relative; }
 .note {
   background: #fff; border: 9px solid var(--pink); padding: 18px; position: relative;
   transform: rotate(var(--r, 0deg)); box-shadow: 5px 6px 0 rgba(22,22,22,.16);
@@ -92,6 +94,8 @@ svg.defs { position: absolute; width: 0; height: 0; }
 /* ---------- 1. entrance ---------- */
 .enter { max-width: 520px; margin: 0 auto; display: grid; justify-items: center; gap: 16px; }
 .enter svg.booth-art { width: 100%; height: auto; display: block; }
+.art-wrap { position: relative; width: 100%; }
+.art-wrap::after { content: ""; position: absolute; inset: 0; background: var(--felt-d), var(--felt-l); pointer-events: none; }
 .enter-btn {
   cursor: pointer; border: 0; background: none; padding: 8px 10px; font-size: clamp(34px, 9vw, 48px);
   animation: bob 1.8s ease-in-out infinite;
@@ -114,7 +118,7 @@ svg.defs { position: absolute; width: 0; height: 0; }
 .cut-card:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
 .mini { display: grid; gap: 4px; width: 46px; padding: 5px; background: #fff; border: 2.5px solid var(--ink); border-radius: 6px; }
 .mini i { display: block; height: 22px; background: var(--blue-l); border: 2px solid var(--ink); border-radius: 2px; }
-.cut-card strong { font: 400 30px/1 var(--font-block); }
+.cut-card strong { font: 400 34px/1 "Jua", var(--font-hand); }
 .cut-card .sub { font: 700 17px/1.1 var(--font-hand); color: #4b4b4b; }
 
 /* ---------- 3. frames ---------- */
@@ -202,7 +206,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
 /* ---------- 6. print ---------- */
 .outlet {
   max-width: 520px; margin: 0 auto; position: relative;
-  background: var(--speckle), var(--mint); background-size: 37px 41px, 53px 47px, 29px 31px, auto;
+  background: var(--felt-d), var(--felt-l), var(--speckle), var(--mint); background-size: auto, auto, 37px 41px, 53px 47px, 29px 31px, auto;
   border-radius: 40px 40px 10px 10px; padding: 26px clamp(16px, 4vw, 30px) 30px; display: grid; gap: 18px;
   box-shadow: 6px 7px 0 rgba(22,22,22,.2);
 }
@@ -248,11 +252,38 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
 .fader { position: fixed; inset: 0; z-index: 50; background: var(--paper); opacity: 0; pointer-events: none; transition: opacity .3s ease; }
 .fader.on { opacity: 1; pointer-events: auto; }
 @media (prefers-reduced-motion: reduce) { .enter-btn { animation: none; } }
+
+/* ---------- felt boxes with slightly wobbly edges ---------- */
+.note, .btn, .cut-card, .fcard, .inside, .chip, .step, .out-note, .countline, .group-label { position: relative; }
+.note, .btn, .cut-card, .fcard, .inside, .chip, .step, .back, .out-note, .countline, .group-label {
+  isolation: isolate; background: transparent !important; border-color: transparent !important; box-shadow: none !important;
+}
+.note::before, .btn::before, .cut-card::before, .fcard::before, .inside::before, .chip::before, .step::before, .back::before, .out-note::before, .countline::before, .group-label::before {
+  content: ""; position: absolute; inset: calc(-1 * var(--bw)); z-index: -1; pointer-events: none;
+  border-radius: inherit; border: var(--bw) solid var(--bc, var(--ink));
+  background: var(--felt-d), var(--felt-l), var(--bgc, #fff); box-shadow: var(--sh, none);
+  filter: url(#wobble);
+}
+.note, .btn, .cut-card, .fcard, .inside, .chip, .step, .back, .out-note, .countline, .group-label { --bc: var(--ink); --bgc: #fff; --sh: none; }
+.note { --bw: 9px; --bc: var(--pink); --sh: 5px 6px 0 rgba(22,22,22,.16); }
+.btn { --bw: 2.5px; --bgc: var(--yellow); --sh: 4px 4px 0 var(--ink); }
+.btn.mint { --bgc: var(--mint); } .btn.pink { --bgc: var(--pink); } .btn.white { --bgc: #fff; }
+.btn:active { --sh: 1px 1px 0 var(--ink); } .btn:disabled { --sh: 4px 4px 0 var(--ink); }
+.cut-card { --bw: 3px; --sh: 4px 4px 0 var(--ink); } .cut-card[aria-pressed="true"] { --bgc: var(--yellow); }
+.fcard { --bw: 2.5px; --sh: 3px 3px 0 var(--ink); } .fcard[aria-pressed="true"] { --bgc: var(--yellow); --sh: 3px 3px 0 var(--ink), 0 0 0 4px var(--pink); }
+.inside { --bw: 3px; --bgc: var(--yellow); --sh: 6px 6px 0 rgba(22,22,22,.2); }
+.chip { --bw: 2px; --sh: 2px 2px 0 var(--ink); } .chip[aria-pressed="true"] { --bgc: var(--pink); }
+.step { --bw: 2px; } .step.on { --bgc: var(--yellow); } .step.done { --bc: #8a8a8a; }
+.back { --bw: 2px; --sh: 2px 2px 0 var(--ink); }
+.out-note { --bw: 2.5px; --sh: 3px 3px 0 var(--ink); }
+.countline { --bw: 6px; --bc: var(--pink); }
+.group-label { --bw: 2px; }
 </style>
 </head>
 <body>
 
 <svg class="defs" aria-hidden="true">
+  <filter id="wobble" x="-10%" y="-25%" width="125%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
   <filter id="felt" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
     <feTurbulence type="fractalNoise" baseFrequency=".55" numOctaves="2" seed="3" result="edge"/>
     <feDisplacementMap in="SourceGraphic" in2="edge" scale="5" xChannelSelector="R" yChannelSelector="G" result="fuzzy"/>
@@ -268,7 +299,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
 <!-- 1. entrance -->
 <section class="screen" id="scr-enter" aria-label="포토부스 입구">
   <div class="enter">
-    <svg class="booth-art" viewBox="0 0 520 770" role="img" aria-label="파란 줄무늬 포토부스 일러스트">
+    <div class="art-wrap"><svg class="booth-art" viewBox="0 0 520 770" role="img" aria-label="파란 줄무늬 포토부스 일러스트">
       <defs>
         <filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter>
         <pattern id="waves" width="46" height="120" patternUnits="userSpaceOnUse"><rect width="46" height="120" fill="#bcd0f3"/><path d="M12 -2 Q24 30 12 60 T12 122" stroke="#7ea9ee" stroke-width="15" fill="none"/></pattern>
@@ -318,7 +349,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
       <ellipse cx="410" cy="662" rx="17" ry="6" fill="#161616"/>
       <g id="stars" fill="#161616"></g>
       <g id="svgTiles"></g>
-    </svg>
+    </svg></div>
     <button class="enter-btn" id="enterBtn" type="button" aria-label="입장하기 (Enter)"><span class="tiles" id="enterTiles"></span></button>
     <p class="hint">ENTER를 누르면 부스 안으로 들어가요</p>
   </div>
@@ -538,7 +569,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
   });
 
   // ---------- 2. cuts ----------
-  const CUT_INFO = { 1: '한 장 크게', 2: '둘이서 나란히', 3: '세 컷 이야기', 4: '클래식 네컷' };
+  const CUT_INFO = { 1: '한 장', 2: '두 장', 3: '세 장', 4: '네 장' };
   function buildCuts() {
     const box = $('cutGrid'); box.innerHTML = '';
     [1, 2, 3, 4].forEach(n => {
