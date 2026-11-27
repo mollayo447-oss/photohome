@@ -1022,6 +1022,11 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
     const c = {
       s, n, H, L, cells, footTop, rand: rng(20261127), caption: (o.caption || '').trim(),
       cut(i, r) {
+        if (o.blank && !(o.photos && o.photos[i])) {
+          s.fillStyle = '#fff'; s.fillRect(r.x, r.y, r.w, r.h);
+          s.strokeStyle = 'rgba(0,0,0,.1)'; s.lineWidth = 1.5; s.strokeRect(r.x + .75, r.y + .75, r.w - 1.5, r.h - 1.5);
+          return;
+        }
         const src = processed((o.photos && o.photos[i]) || sampleShot(i), o.film || 'none', o.bright || 0, o.soft || 0);
         drawCover(s, src, r.x, r.y, r.w, r.h);
         s.save(); s.globalCompositeOperation = 'overlay'; s.globalAlpha = .12; s.drawImage(grainCanvas(), r.x, r.y, r.w, r.h); s.restore();
@@ -1035,7 +1040,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
   let thumbJob = 0;
   function buildFrames() {
     const list = $('frameList'); list.innerHTML = '';
-    const groups = [['basic', '기본 프레임'], ['deco', '꾸민 프레임']];
+    const groups = [['basic', '기본 프레임'], ['deco', '특별 프레임']];
     const cards = [];
     groups.forEach(([g, label]) => {
       const h = document.createElement('p'); h.className = 'group-label'; h.textContent = label; list.appendChild(h);
@@ -1056,7 +1061,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
     const next = () => {
       if (job !== thumbJob || k >= cards.length) return;
       const [f, cv] = cards[k++];
-      const full = renderStrip({ frame: f.id, n: state.n, caption: 'photohome' });
+      const full = renderStrip({ frame: f.id, n: state.n, caption: 'photohome', blank: true });
       cv.width = 160; cv.height = Math.round(160 * full.height / W);
       cv.getContext('2d').drawImage(full, 0, 0, cv.width, cv.height);
       setTimeout(next, 0);
@@ -1064,7 +1069,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
     next();
   }
   function renderFramePreview() {
-    renderStrip({ frame: state.frame, n: state.n, caption: 'photohome', target: $('framePreview') });
+    renderStrip({ frame: state.frame, n: state.n, caption: 'photohome', blank: true, target: $('framePreview') });
     $('frameName').textContent = FRAME_MAP[state.frame].name + ' · ' + state.n + '컷';
   }
   ENTER_HOOKS.frame = () => { $('frameLead').textContent = state.n + '컷 프레임이에요. 필름, 밝기, 문구는 찍은 다음에 고를 수 있어요.'; buildFrames(); renderFramePreview(); };
