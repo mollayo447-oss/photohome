@@ -561,18 +561,47 @@ input[type="text"]:focus-visible { outline: 2px solid var(--orange); outline-off
       s.beginPath(); s.arc(x0 + rand() * w, y0 + rand() * h, rMin + rand() * (rMax - rMin), 0, Math.PI * 2); s.fill();
     }
   }
-  function drawCut(s, i, r, f) {
-    const c = shots[i];
-    if (c) {
-      drawCover(s, filtered(c, state.filter), c.width, c.height, r.x, r.y, r.w, r.h);
-      s.save(); s.globalCompositeOperation = 'overlay'; s.globalAlpha = .22;
-      s.drawImage(grainCanvas(), r.x, r.y, r.w, r.h); s.restore();
-    } else {
-      s.fillStyle = f.ph; s.fillRect(r.x, r.y, r.w, r.h);
-      s.save(); s.fillStyle = f.id === 'black' ? 'rgba(255,255,255,.28)' : 'rgba(0,0,0,.22)';
-      s.textAlign = 'center'; s.textBaseline = 'middle'; s.font = '96px "Yellowtail", cursive';
-      s.fillText(String(i + 1), r.x + r.w / 2, r.y + r.h / 2); s.restore();
+  // Colourful sample pictures fill empty cuts so frames and films can be previewed before shooting
+  const samples = [];
+  function sampleShot(i) {
+    if (samples[i]) return samples[i];
+    const c = document.createElement('canvas'); c.width = 600; c.height = 450;
+    const x = c.getContext('2d'), w = 600, h = 450;
+    const lin = (y0, y1, stops) => { const g = x.createLinearGradient(0, y0, 0, y1); stops.forEach((s, k) => g.addColorStop(k / (stops.length - 1), s)); return g; };
+    const circle = (cx, cy, r, fill) => { x.fillStyle = fill; x.beginPath(); x.arc(cx, cy, r, 0, Math.PI * 2); x.fill(); };
+    if (i === 0) { // sunset over hills
+      x.fillStyle = lin(0, h, ['#5b6fc9', '#f08a6b', '#ffd27a']); x.fillRect(0, 0, w, h);
+      circle(400, 260, 70, '#fff1b8');
+      x.fillStyle = '#3d5a4a'; x.beginPath(); x.moveTo(0, 330); x.quadraticCurveTo(160, 230, 330, 320); x.quadraticCurveTo(470, 380, 600, 300); x.lineTo(600, 450); x.lineTo(0, 450); x.fill();
+      x.fillStyle = '#23382e'; x.beginPath(); x.moveTo(0, 400); x.quadraticCurveTo(250, 330, 600, 410); x.lineTo(600, 450); x.lineTo(0, 450); x.fill();
+    } else if (i === 1) { // meadow with flowers
+      x.fillStyle = lin(0, 300, ['#6fb4ec', '#bfe3ff']); x.fillRect(0, 0, w, h);
+      [[120, 90, 40], [165, 80, 50], [215, 95, 36], [420, 140, 34], [460, 128, 44]].forEach(([cx, cy, r]) => circle(cx, cy, r, '#ffffff'));
+      x.fillStyle = lin(260, h, ['#7cc46a', '#3f8f45']); x.fillRect(0, 270, w, 180);
+      const rand = rng(7);
+      for (let k = 0; k < 60; k++) { const fx = rand() * w, fy = 300 + rand() * 140; circle(fx, fy, 6 + rand() * 5, ['#ff5d73', '#ffd23f', '#ffffff', '#c86bff'][k % 4]); circle(fx, fy, 2.5, '#ffb000'); }
+    } else if (i === 2) { // smiley selfie
+      x.fillStyle = lin(0, h, ['#ffc4d6', '#ff8fb1']); x.fillRect(0, 0, w, h);
+      circle(300, 235, 150, '#ffd54a');
+      circle(250, 200, 16, '#3a2a1a'); circle(350, 200, 16, '#3a2a1a');
+      circle(215, 265, 22, 'rgba(255,120,120,.5)'); circle(385, 265, 22, 'rgba(255,120,120,.5)');
+      x.strokeStyle = '#3a2a1a'; x.lineWidth = 12; x.lineCap = 'round'; x.beginPath(); x.arc(300, 250, 70, .15 * Math.PI, .85 * Math.PI); x.stroke();
+    } else { // city lights at night
+      x.fillStyle = lin(0, h, ['#141a3a', '#2b2f6b', '#4a2c63']); x.fillRect(0, 0, w, h);
+      const rand = rng(11);
+      for (let k = 0; k < 26; k++) { circle(rand() * w, rand() * 260, 10 + rand() * 26, ['rgba(255,200,90,.55)', 'rgba(255,110,150,.5)', 'rgba(110,200,255,.5)', 'rgba(170,255,170,.45)'][k % 4]); }
+      x.fillStyle = '#0b0d1c';
+      [[20, 250, 70], [95, 200, 60], [160, 280, 80], [245, 170, 70], [320, 240, 90], [415, 190, 60], [480, 260, 100]].forEach(([bx, by, bw]) => x.fillRect(bx, by, bw, h - by));
+      for (let k = 0; k < 70; k++) { x.fillStyle = rand() > .4 ? '#ffd77a' : '#7ad0ff'; x.fillRect(30 + rand() * 540, 200 + rand() * 230, 7, 9); }
     }
+    samples[i] = c;
+    return c;
+  }
+  function drawCut(s, i, r) {
+    const c = shots[i] || sampleShot(i);
+    drawCover(s, filtered(c, state.filter), c.width, c.height, r.x, r.y, r.w, r.h);
+    s.save(); s.globalCompositeOperation = 'overlay'; s.globalAlpha = .22;
+    s.drawImage(grainCanvas(), r.x, r.y, r.w, r.h); s.restore();
   }
   function cells(x, top, w, h, gap) { return [0, 1, 2, 3].map(i => ({ x, y: top + i * (h + gap), w, h })); }
   function dateStamp() {
@@ -670,7 +699,7 @@ input[type="text"]:focus-visible { outline: 2px solid var(--orange); outline-off
   let previewQueued = false;
   function renderPreview(swap) {
     const f = FRAMES.find(x => x.id === state.frame);
-    $('caseSub').textContent = f.name + ' 프레임';
+    $('caseSub').textContent = f.name + ' 프레임 · ' + FILTERS.find(x => x.id === state.filter).name + ' 필름';
     if (swap) { const p = $('preview'); p.classList.remove('swap'); void p.offsetWidth; p.classList.add('swap'); }
     if (previewQueued) return;
     previewQueued = true;
