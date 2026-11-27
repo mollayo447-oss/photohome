@@ -62,7 +62,8 @@ svg.defs { position: absolute; width: 0; height: 0; }
 .step { font: 700 16px/1 var(--font-hand); background: #fff; border: 2px solid var(--ink); border-radius: 999px; padding: 5px 11px 4px; }
 .step.on { background: var(--yellow); }
 .step.done { background: #fff; color: #8a8a8a; border-color: #8a8a8a; }
-.steps .brk { flex-basis: 100%; height: 0; margin-top: -6px; }
+.steps { row-gap: 6px; }
+.steps .brk { flex-basis: 100%; height: 0; }
 .wall { background: var(--felt-d), var(--felt-l), var(--waves); padding: 22px clamp(12px, 3vw, 28px) 30px; border-radius: 0 0 8px 8px; position: relative; }
 .note {
   background: #fff; border: 9px solid var(--pink); padding: 18px; position: relative;
