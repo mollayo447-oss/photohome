@@ -579,7 +579,7 @@ input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
       b.setAttribute('aria-pressed', String(state.n === n));
       const mini = document.createElement('span'); mini.className = 'mini';
       for (let k = 0; k < n; k++) mini.appendChild(document.createElement('i'));
-      const big = document.createElement('strong'); big.textContent = n + '컷';
+      const big = document.createElement('strong'); big.textContent = n + (n === 1 ? ' cut' : ' cuts');
       const sub = document.createElement('span'); sub.className = 'sub'; sub.textContent = CUT_INFO[n];
       b.append(mini, big, sub);
       b.onclick = () => { setN(n); buildCuts(); };
